@@ -8,7 +8,7 @@
 ```
 # static-sqlite3
 
-[![Build](https://github.com/Sobotkama/static-sqlite3/actions/workflows/sqlite-build.yml/badge.svg?branch=main)](https://github.com/Sobotkama/static-sqlite3/actions/workflows/sqlite-build.yml)
+[![Build sqlite](https://github.com/Scalesoft/static-sqlite3/actions/workflows/sqlite-build.yml/badge.svg?event=push)](https://github.com/Scalesoft/static-sqlite3/actions/workflows/sqlite-build.yml)
 
 Compile a statically linked `sqlite3` for amd64 platforms due to abcense of statically compiled `sqlite3` program for x86_64 Linux platforms on official site.
 
