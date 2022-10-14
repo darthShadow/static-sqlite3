@@ -20,29 +20,32 @@ cd "${workdir}"
 
 printf "\n\n===== Compiling... Please wait... ==============================================\n\n"
 
-gcc  -O2                \
-  -DHAVE_USLEEP         \
-  -DSQLITE_DQS=0        \
-  -DHAVE_READLINE       \
-  -DSQLITE_USE_ALLOCA   \
-  -DSQLITE_THREADSAFE=0 \
-  -DSQLITE_ENABLE_FTS4  \
-  -DSQLITE_ENABLE_FTS5  \
+# On apline use ncursesw instead of ncurses (!!!)
+gcc \
+  -Os \
+  -DHAVE_USLEEP \
+  -DSQLITE_DQS=0 \
+  -DHAVE_READLINE \
+  -DSQLITE_USE_ALLOCA \
+  -DSQLITE_ENABLE_FTS4 \
+  -DSQLITE_ENABLE_FTS5 \
   -DSQLITE_ENABLE_JSON1 \
+  -DSQLITE_THREADSAFE=0 \
   -DSQLITE_ENABLE_RTREE \
-  -DSQLITE_ENABLE_GEOPOLY           \
-  -DSQLITE_OMIT_DECLTYPE            \
-  -DSQLITE_OMIT_DEPRECATED          \
-  -DSQLITE_OMIT_SHARED_CACHE        \
-  -DSQLITE_OMIT_LOAD_EXTENSION      \
-  -DSQLITE_OMIT_PROGRESS_CALLBACK   \
-  -DSQLITE_LIKE_DOESNT_MATCH_BLOBS  \
-  -DSQLITE_ENABLE_EXPLAIN_COMMENTS  \
-  -DSQLITE_ENABLE_MATH_FUNCTIONS    \
-  shell.c sqlite3.c     \
-    -static -lm         \
-    -lreadline          \
-    -lncursesw -o sqlite3 # On apline use ncursesw instead of ncurses (!!!)
+  -DSQLITE_OMIT_DECLTYPE \
+  -DSQLITE_ENABLE_GEOPOLY \
+  -DSQLITE_OMIT_DEPRECATED \
+  -DSQLITE_OMIT_SHARED_CACHE \
+  -DSQLITE_OMIT_LOAD_EXTENSION \
+  -DSQLITE_ENABLE_MATH_FUNCTIONS \
+  -DSQLITE_OMIT_PROGRESS_CALLBACK \
+  -DSQLITE_LIKE_DOESNT_MATCH_BLOBS \
+  -DSQLITE_ENABLE_EXPLAIN_COMMENTS \
+  shell.c sqlite3.c \
+  -static -lm \
+  -lreadline \
+  -lncursesw \
+  -o sqlite3
 
 rc=$?
 if [ $rc -eq 0 ]; then
