@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-LABEL org.sqlite.static.binary.linux.x86_64.dockerfile.version="1.0.6"
+LABEL org.sqlite.static.binary.linux.x86_64.dockerfile.version="1.0.7"
 
 ARG URL_SQLITE_SOURCE_ZIP
 ARG COMPRESS_SQLITE3
