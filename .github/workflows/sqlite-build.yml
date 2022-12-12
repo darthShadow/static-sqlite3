@@ -22,7 +22,7 @@ jobs:
         working-directory: ./docker
         run: sudo docker build --rm --no-cache=true -t "${docker_image}" . --build-arg URL_SQLITE_SOURCE_ZIP="https://www.sqlite.org/${release_year}/sqlite-amalgamation-${version}.zip" --build-arg COMPRESS_SQLITE3="upx"
       - name: Extract binary from docker image
-        uses: shrink/actions-docker-extract@v1
+        uses: shrink/actions-docker-extract@v2
         id: extract
         with:
           image: ${{env.docker_image}}
