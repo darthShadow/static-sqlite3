@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  version: "3400100"
-  release_year: "2022"
+  version: "3410000"
+  release_year: "2023"
   docker_image: "static-sqlite"
 
 jobs:
