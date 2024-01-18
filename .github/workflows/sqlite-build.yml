@@ -10,25 +10,42 @@ on:
 env:
   version: "3450000"
   release_year: "2024"
-  docker_image: "static-sqlite"
+  docker_cli_image: "sqlite3-cli"
+  docker_library_image: "sqlite3-library"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Build sqlite
-        working-directory: ./docker
-        run: sudo docker build --rm --no-cache=true -t "${docker_image}" . --build-arg URL_SQLITE_SOURCE_ZIP="https://www.sqlite.org/${release_year}/sqlite-amalgamation-${version}.zip" --build-arg COMPRESS_SQLITE3="upx"
+      - uses: actions/checkout@v4
+      - name: Build sqlite CLI
+        working-directory: ./docker-cli
+        run: sudo docker build --rm --no-cache=true -t "${docker_cli_image}" . --build-arg URL_SQLITE_SOURCE_ZIP="https://www.sqlite.org/${release_year}/sqlite-amalgamation-${version}.zip" --build-arg COMPRESS_SQLITE3="upx"
       - name: Extract binary from docker image
-        uses: shrink/actions-docker-extract@v2
-        id: extract
+        uses: shrink/actions-docker-extract@v3
+        id: extract_cli
         with:
-          image: ${{env.docker_image}}
-          path: /app/sqlite-amalgamation-${{env.version}}/sqlite3
-      - name: Upload sqlite binary artifact
-        uses: actions/upload-artifact@v3
+          image: ${{env.docker_cli_image}}
+          path: /app/sqlite-amalgamation-${{env.version}}/dist/.
+          destination: cli
+      - name: Upload sqlite CLI artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: ${{ steps.extract.outputs.destination }}
-          name: sqlite-${{env.version}}
+          path: ${{ steps.extract_cli.outputs.destination }}
+          name: sqlite-${{env.version}}-cli
+      - name: Build sqlite library
+        working-directory: ./docker-library
+        run: sudo docker build --rm --no-cache=true -t "${docker_library_image}" . --build-arg URL_SQLITE_SOURCE_ZIP="https://www.sqlite.org/${release_year}/sqlite-amalgamation-${version}.zip"
+      - name: Extract binary from docker image
+        uses: shrink/actions-docker-extract@v3
+        id: extract_library
+        with:
+          image: ${{env.docker_library_image}}
+          path: /app/sqlite-amalgamation-${{env.version}}/dist/.
+          destination: library
+      - name: Upload sqlite library artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ steps.extract_library.outputs.destination }}
+          name: sqlite-${{env.version}}-library
